@@ -1,0 +1,111 @@
+[gd_scene load_steps=20 format=3 uid="uid://c2m2raksyb0w1"]
+
+[ext_resource type="Texture2D" uid="uid://bmqtyl4ho010t" path="res://assets/sprites/enemies/frog/idle/frog-idle-2.png" id="1_2lk3f"]
+[ext_resource type="Script" path="res://scenes/enemies/frog/scripts/frog.gd" id="1_lru1c"]
+[ext_resource type="Texture2D" uid="uid://dsucc22w2dbnm" path="res://assets/sprites/enemies/frog/idle/frog-idle-1.png" id="2_ecujx"]
+[ext_resource type="Texture2D" uid="uid://b6sexaf2vvp3t" path="res://assets/sprites/enemies/frog/idle/frog-idle-3.png" id="3_f1ten"]
+[ext_resource type="Texture2D" uid="uid://ciy7b256grpak" path="res://assets/sprites/enemies/frog/idle/frog-idle-4.png" id="4_d83qb"]
+[ext_resource type="Texture2D" uid="uid://cxiubaehbdjwy" path="res://assets/sprites/enemies/frog/jump/frog-jump-1.png" id="5_6edse"]
+[ext_resource type="Texture2D" uid="uid://2tdyp1t283cy" path="res://assets/sprites/enemies/frog/jump/frog-jump-2.png" id="6_tply5"]
+
+[sub_resource type="Animation" id="Animation_fvhx7"]
+resource_name = "Idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("2_ecujx"), ExtResource("1_2lk3f"), ExtResource("3_f1ten"), ExtResource("4_d83qb")]
+}
+
+[sub_resource type="Animation" id="Animation_fpcep"]
+resource_name = "Jump"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("5_6edse"), ExtResource("6_tply5")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dr08k"]
+_data = {
+"Idle": SubResource("Animation_fvhx7"),
+"Jump": SubResource("Animation_fpcep")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1oyrn"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jg838"]
+animation = &"Jump"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iqwrm"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5wr3i"]
+advance_mode = 2
+advance_expression = "velocity.x != 0 and velocity.y < 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a8ig7"]
+advance_mode = 2
+advance_expression = "velocity.x == 0"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_udxqv"]
+states/Idle/node = SubResource("AnimationNodeAnimation_1oyrn")
+states/Idle/position = Vector2(396.5, 101.25)
+states/Jump/node = SubResource("AnimationNodeAnimation_jg838")
+states/Jump/position = Vector2(571, 102.5)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_iqwrm"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_5wr3i"), "Jump", "Idle", SubResource("AnimationNodeStateMachineTransition_a8ig7")]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qiowr"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ws51r"]
+states/Attack/node = SubResource("AnimationNodeStateMachine_udxqv")
+states/Attack/position = Vector2(491.5, 99.75)
+states/Start/position = Vector2(200.5, 101)
+transitions = ["Start", "Attack", SubResource("AnimationNodeStateMachineTransition_qiowr")]
+graph_offset = Vector2(25.8001, -65.9175)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w365r"]
+radius = 9.0
+height = 28.0
+
+[node name="Frog" type="CharacterBody2D"]
+script = ExtResource("1_lru1c")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("3_f1ten")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_dr08k")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="Sprite2D/AnimationPlayer"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_dr08k")
+}
+tree_root = SubResource("AnimationNodeStateMachine_ws51r")
+anim_player = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -14)
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_w365r")
