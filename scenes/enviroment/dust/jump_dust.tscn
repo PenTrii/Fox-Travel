@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d12r0xqefw5hn"]
+[gd_scene load_steps=9 format=3 uid="uid://de5k3g2v5hr44"]
 
 [ext_resource type="Texture2D" uid="uid://cdshclc1f13p5" path="res://assets/eviroment/dust particles/Jump 01.png" id="1_5rnqp"]
 [ext_resource type="Texture2D" uid="uid://b5v0a76blaysg" path="res://assets/eviroment/dust particles/Jump 02.png" id="2_5me7g"]
@@ -29,13 +29,15 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("6_vig7b")
 }],
-"loop": true,
+"loop": false,
 "name": &"default",
 "speed": 10.0
 }]
 
 [node name="DustParticles" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_0ibee")
-frame_progress = 0.670386
+frame_progress = 1.0
 offset = Vector2(0, -10)
 script = ExtResource("7_ckxau")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

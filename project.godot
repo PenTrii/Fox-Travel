@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 Global="*res://autoloads/global.gd"
 
+[display]
+
+window/stretch/scale=2.0
+
 [input]
 
 run_left={
