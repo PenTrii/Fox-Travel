@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://fycxaj610fxn"]
+
+[ext_resource type="PackedScene" uid="uid://c0mkuxbk5c2ja" path="res://scenes/player/fox.tscn" id="1_hbh7s"]
+[ext_resource type="Texture2D" uid="uid://ciehuifwuijvd" path="res://icon.svg" id="1_wxhu2"]
+[ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="2_2k4ev"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rc6fi"]
+size = Vector2(910.75, 83)
+
+[node name="Level 1" type="Node2D"]
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(459, 427)
+scale = Vector2(7.20313, 0.71875)
+texture = ExtResource("1_wxhu2")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(456.625, 421)
+shape = SubResource("RectangleShape2D_rc6fi")
+
+[node name="Fox" parent="." instance=ExtResource("1_hbh7s")]
+position = Vector2(338, 148)
+
+[node name="Node" type="Node" parent="Fox"]
+script = ExtResource("2_2k4ev")
+
+[node name="Camera2D" type="Camera2D" parent="Fox"]
