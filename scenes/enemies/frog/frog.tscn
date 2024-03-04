@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c2m2raksyb0w1"]
+[gd_scene load_steps=32 format=3 uid="uid://c2m2raksyb0w1"]
 
 [ext_resource type="Texture2D" uid="uid://bmqtyl4ho010t" path="res://assets/sprites/enemies/frog/idle/frog-idle-2.png" id="1_2lk3f"]
 [ext_resource type="Script" path="res://scenes/enemies/frog/scripts/frog.gd" id="1_lru1c"]
@@ -7,6 +7,40 @@
 [ext_resource type="Texture2D" uid="uid://ciy7b256grpak" path="res://assets/sprites/enemies/frog/idle/frog-idle-4.png" id="4_d83qb"]
 [ext_resource type="Texture2D" uid="uid://cxiubaehbdjwy" path="res://assets/sprites/enemies/frog/jump/frog-jump-1.png" id="5_6edse"]
 [ext_resource type="Texture2D" uid="uid://2tdyp1t283cy" path="res://assets/sprites/enemies/frog/jump/frog-jump-2.png" id="6_tply5"]
+[ext_resource type="Texture2D" uid="uid://rbxtvc0fsnyg" path="res://assets/sprites/enemies/death/enemy-death-1.png" id="8_sbp1m"]
+[ext_resource type="Texture2D" uid="uid://dtjlhml6q176r" path="res://assets/sprites/enemies/death/enemy-death-2.png" id="9_2oad8"]
+[ext_resource type="Texture2D" uid="uid://cgb2754j0rf7n" path="res://assets/sprites/enemies/death/enemy-death-3.png" id="10_vye1v"]
+[ext_resource type="Texture2D" uid="uid://cytv6ckdnoxn5" path="res://assets/sprites/enemies/death/enemy-death-4.png" id="11_ax111"]
+[ext_resource type="Texture2D" uid="uid://dfmr48qm7l4uu" path="res://assets/sprites/enemies/death/enemy-death-5.png" id="12_hr53e"]
+[ext_resource type="Texture2D" uid="uid://cab4ggenxlawb" path="res://assets/sprites/enemies/death/enemy-death-6.png" id="13_r3i18"]
+
+[sub_resource type="Animation" id="Animation_b5r2p"]
+resource_name = "Dead"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("8_sbp1m"), ExtResource("9_2oad8"), ExtResource("10_vye1v"), ExtResource("11_ax111"), ExtResource("12_hr53e"), ExtResource("13_r3i18")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_fvhx7"]
 resource_name = "Idle"
@@ -41,10 +75,15 @@ tracks/0/keys = {
 "values": [ExtResource("5_6edse"), ExtResource("6_tply5")]
 }
 
+[sub_resource type="Animation" id="Animation_6b013"]
+length = 0.001
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dr08k"]
 _data = {
+"Dead": SubResource("Animation_b5r2p"),
 "Idle": SubResource("Animation_fvhx7"),
-"Jump": SubResource("Animation_fpcep")
+"Jump": SubResource("Animation_fpcep"),
+"RESET": SubResource("Animation_6b013")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1oyrn"]
@@ -71,26 +110,43 @@ states/Jump/node = SubResource("AnimationNodeAnimation_jg838")
 states/Jump/position = Vector2(571, 102.5)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_iqwrm"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_5wr3i"), "Jump", "Idle", SubResource("AnimationNodeStateMachineTransition_a8ig7")]
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2aage"]
+animation = &"Dead"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qiowr"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t50g3"]
+advance_mode = 2
+advance_expression = "not _is_dead
+"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xcr28"]
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ws51r"]
 states/Attack/node = SubResource("AnimationNodeStateMachine_udxqv")
-states/Attack/position = Vector2(491.5, 99.75)
+states/Attack/position = Vector2(491.5, 100)
+states/Dead/node = SubResource("AnimationNodeAnimation_2aage")
+states/Dead/position = Vector2(491.5, 3.6675)
 states/Start/position = Vector2(200.5, 101)
-transitions = ["Start", "Attack", SubResource("AnimationNodeStateMachineTransition_qiowr")]
+transitions = ["Start", "Attack", SubResource("AnimationNodeStateMachineTransition_qiowr"), "Attack", "Dead", SubResource("AnimationNodeStateMachineTransition_t50g3"), "Dead", "Attack", SubResource("AnimationNodeStateMachineTransition_xcr28")]
 graph_offset = Vector2(25.8001, -65.9175)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w365r"]
 radius = 9.0
 height = 28.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xb60o"]
+radius = 11.3137
+height = 45.2548
+
 [node name="Frog" type="CharacterBody2D"]
 script = ExtResource("1_lru1c")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -16)
-texture = ExtResource("3_f1ten")
+texture = ExtResource("4_d83qb")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 libraries = {
@@ -106,6 +162,14 @@ tree_root = SubResource("AnimationNodeStateMachine_ws51r")
 anim_player = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, -14)
+visible = false
+position = Vector2(0, -16)
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_w365r")
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0, -16)
+rotation = -0.785397
+shape = SubResource("CapsuleShape2D_xb60o")

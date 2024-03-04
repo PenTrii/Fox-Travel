@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://lqsj5ffbtgvr"]
+
+[ext_resource type="Texture2D" uid="uid://us7ijvjnuqmt" path="res://assets/eviroment/back_ground/back.png" id="1_hgg6b"]
+[ext_resource type="Texture2D" uid="uid://cjsveq1qsovcw" path="res://assets/eviroment/back_ground/middle.png" id="2_42o0r"]
+
+[node name="Background" type="ParallaxBackground"]
+
+[node name="Sky" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.5, 0)
+motion_mirroring = Vector2(768, 0)
+
+[node name="TextureRect" type="TextureRect" parent="Sky"]
+offset_right = 768.0
+offset_bottom = 240.0
+texture = ExtResource("1_hgg6b")
+
+[node name="Middle" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.8, 0)
+motion_mirroring = Vector2(880, 0)
+
+[node name="TextureRect" type="TextureRect" parent="Middle"]
+clip_contents = true
+offset_top = 80.0
+offset_right = 880.0
+offset_bottom = 448.0
+texture = ExtResource("2_42o0r")
+stretch_mode = 1

@@ -14,9 +14,16 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var _jump_dust: PackedScene
 var jump_velocity: float
 
+@export_category("Sprite")
+@export var _is_facing_left: bool
+@export var _sprties_face_left: bool
 @onready var _sprite: Sprite2D = $Sprite2D
+var was_on_floor: bool
 
 var _direction: float
+
+signal changed_direction(is_facing_left: bool)
+signal landed(floor_height: float)
 
 func _ready():
 	_speed *= Global.ppt
@@ -24,13 +31,18 @@ func _ready():
 	_deceleration *= Global.ppt
 	_jump_height *= Global.ppt
 	jump_velocity = sqrt(_jump_height * gravity * 2) * -1
+	face_left() if _is_facing_left else face_right()
 
 #region
 func face_left():
+	_is_facing_left = true
 	_sprite.flip_h = true
+	changed_direction.emit(_is_facing_left)
 
 func face_right():
+	_is_facing_left = false
 	_sprite.flip_h = false
+	changed_direction.emit(_is_facing_left)
 
 func run(direction: float):
 	_direction = direction
@@ -46,16 +58,20 @@ func stop_jump():
 #endregion
 
 func _physics_process(delta):
-	if sign(_direction) == -1:
+	if not _is_facing_left && sign(_direction) == -1:
 		face_left()
-	elif sign(_direction) == 1:
+	elif _is_facing_left && sign(_direction) == 1:
 		face_right()
 	
 	if is_on_floor():
 		_ground_physics(delta)
 	else:
 		_air_physics(delta)
+	
+	was_on_floor = is_on_floor()
 	move_and_slide()
+	if not was_on_floor && is_on_floor():
+		_landed()
 
 func _ground_physics(delta: float):
 	if _direction == 0:
@@ -69,6 +85,9 @@ func _air_physics(delta: float):
 	velocity.y += gravity * delta
 	if _direction:
 		velocity.x = move_toward(velocity.x, _direction * _speed, _acceleration * air_control * delta)
+
+func _landed():
+	landed.emit(position.y)
 
 func _spawn_dust(dust: PackedScene):
 	var _dust = dust.instantiate()

@@ -1,14 +1,19 @@
-[gd_scene load_steps=11 format=3 uid="uid://dcd0u1x8c65t1"]
+[gd_scene load_steps=23 format=3 uid="uid://dcd0u1x8c65t1"]
 
 [ext_resource type="Texture2D" uid="uid://cpb5g86vvm307" path="res://assets/sprites/enemies/eagle/eagle-attack-1.png" id="1_xakps"]
 [ext_resource type="Texture2D" uid="uid://5vv8j2lw1m7g" path="res://assets/sprites/enemies/eagle/eagle-attack-2.png" id="2_kvhj4"]
 [ext_resource type="Texture2D" uid="uid://dwvm8hhk5re0h" path="res://assets/sprites/enemies/eagle/eagle-attack-3.png" id="3_1vlif"]
 [ext_resource type="Texture2D" uid="uid://da0tts4gdj8ff" path="res://assets/sprites/enemies/eagle/eagle-attack-4.png" id="4_twph6"]
+[ext_resource type="Texture2D" uid="uid://rbxtvc0fsnyg" path="res://assets/sprites/enemies/death/enemy-death-1.png" id="5_psnbk"]
+[ext_resource type="Texture2D" uid="uid://dtjlhml6q176r" path="res://assets/sprites/enemies/death/enemy-death-2.png" id="6_shp2l"]
+[ext_resource type="Texture2D" uid="uid://cgb2754j0rf7n" path="res://assets/sprites/enemies/death/enemy-death-3.png" id="7_yyskm"]
+[ext_resource type="Texture2D" uid="uid://cytv6ckdnoxn5" path="res://assets/sprites/enemies/death/enemy-death-4.png" id="8_0vgcm"]
+[ext_resource type="Texture2D" uid="uid://dfmr48qm7l4uu" path="res://assets/sprites/enemies/death/enemy-death-5.png" id="9_r75o7"]
+[ext_resource type="Texture2D" uid="uid://cab4ggenxlawb" path="res://assets/sprites/enemies/death/enemy-death-6.png" id="10_f71ql"]
 
 [sub_resource type="Animation" id="Animation_qtdha"]
 resource_name = "Attack"
 length = 0.4
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -21,27 +26,112 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("1_xakps"), ExtResource("2_kvhj4"), ExtResource("3_1vlif"), ExtResource("4_twph6")]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Area2D/CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(-5, 6), Vector2(-2.5, 5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Area2D/CollisionShape2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0.9, 0.9), Vector2(0.9, 0.9), Vector2(0.9, 0.9), Vector2(0.8, 0.45)]
+}
+
+[sub_resource type="Animation" id="Animation_bwbtu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Area2D/CollisionShape2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Area2D/CollisionShape2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_wikp4"]
+resource_name = "Dead"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("5_psnbk"), ExtResource("6_shp2l"), ExtResource("7_yyskm"), ExtResource("8_0vgcm"), ExtResource("9_r75o7"), ExtResource("10_f71ql")]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pplo4"]
 _data = {
-"Attack": SubResource("Animation_qtdha")
+"Attack": SubResource("Animation_qtdha"),
+"Dead": SubResource("Animation_wikp4"),
+"RESET": SubResource("Animation_bwbtu")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ma0rj"]
 animation = &"Attack"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uf43p"]
+animation = &"Dead"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_oqm2h"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_48k7g"]
+advance_mode = 2
+advance_expression = "_is_dead"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mgqxg"]
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_tnfg2"]
 states/Attack/node = SubResource("AnimationNodeAnimation_ma0rj")
-states/Attack/position = Vector2(568.1, 97.6737)
-transitions = ["Start", "Attack", SubResource("AnimationNodeStateMachineTransition_oqm2h")]
+states/Attack/position = Vector2(439.1, 100)
+states/Dead/node = SubResource("AnimationNodeAnimation_uf43p")
+states/Dead/position = Vector2(698.1, 96.3475)
+transitions = ["Start", "Attack", SubResource("AnimationNodeStateMachineTransition_oqm2h"), "Attack", "Dead", SubResource("AnimationNodeStateMachineTransition_48k7g"), "Dead", "Attack", SubResource("AnimationNodeStateMachineTransition_mgqxg")]
 graph_offset = Vector2(116.1, -42.6525)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cv1br"]
 radius = 13.3923
 height = 39.4449
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0na3a"]
+radius = 16.135
+height = 50.0477
 
 [node name="Eagle" type="CharacterBody2D"]
 
@@ -62,6 +152,13 @@ tree_root = SubResource("AnimationNodeStateMachine_tnfg2")
 anim_player = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-1, -1)
 rotation = 0.523599
 shape = SubResource("CapsuleShape2D_cv1br")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_0na3a")
+debug_color = Color(0.980392, 0.0823529, 0.278431, 0.419608)
