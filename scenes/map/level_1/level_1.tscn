@@ -1065,5 +1065,18 @@ script = ExtResource("5_vr0gn")
 [node name="Eagle" parent="." instance=ExtResource("7_fic4b")]
 position = Vector2(480, 96)
 
+[node name="Timer" type="Timer" parent="Eagle"]
+wait_time = 2.0
+autostart = true
+
+[node name="Eagle2" parent="." instance=ExtResource("7_fic4b")]
+position = Vector2(178, 64)
+
+[node name="Timer" type="Timer" parent="Eagle2"]
+wait_time = 2.0
+autostart = true
+
 [connection signal="changed_direction" from="Fox" to="Camera2D" method="_on_subject_changed_direction"]
 [connection signal="landed" from="Fox" to="Camera2D" method="_on_subject_landed"]
+[connection signal="timeout" from="Eagle/Timer" to="Eagle" method="attack"]
+[connection signal="timeout" from="Eagle2/Timer" to="Eagle" method="attack"]

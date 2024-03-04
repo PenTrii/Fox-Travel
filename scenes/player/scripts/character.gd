@@ -20,6 +20,14 @@ var jump_velocity: float
 @onready var _sprite: Sprite2D = $Sprite2D
 var was_on_floor: bool
 
+@export_category("Combat")
+@export_range(0, 1) var _attack_damage : int = 1
+@export var _want_to_attack: bool
+@export var _is_hit: bool
+@export var _is_dead: bool
+@onready var _hurt_box: Area2D = $HurtBox
+#@onready var _hit_box: Area2D = $HitBox
+
 var _direction: float
 
 signal changed_direction(is_facing_left: bool)
@@ -70,6 +78,7 @@ func _physics_process(delta):
 	
 	was_on_floor = is_on_floor()
 	move_and_slide()
+	take_down()
 	if not was_on_floor && is_on_floor():
 		_landed()
 
@@ -94,3 +103,14 @@ func _spawn_dust(dust: PackedScene):
 	_dust.position = position
 	_dust.flip_h = _sprite.flip_h
 	get_parent().add_child(_dust)
+
+func take_down():
+	_hurt_box.set_deferred("monitorable", false)
+	collision_layer = 0
+	collision_mask = 1
+	_direction = 0
+
+
+func _on_hurt_box_area_entered(area):
+	print_debug("is hurt")
+	_is_hit = true

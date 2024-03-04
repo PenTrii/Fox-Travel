@@ -46,6 +46,18 @@ jump={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Terrain"
+2d_physics/layer_9="Player"
+2d_physics/layer_10="Player Hurt"
+2d_physics/layer_11="Player Hit"
+2d_physics/layer_17="Enemy"
+2d_physics/layer_18="Enemy Hurt"
+2d_physics/layer_19="Enemy Hit"
+2d_physics/layer_20="Enemy Vision"
+2d_physics/layer_21="Enemy Target"
+
 [physics]
 
 2d/default_gravity=2508.8
