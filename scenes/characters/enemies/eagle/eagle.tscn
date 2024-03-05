@@ -1,6 +1,6 @@
-[gd_scene load_steps=26 format=3 uid="uid://dcd0u1x8c65t1"]
+[gd_scene load_steps=25 format=3 uid="uid://dcd0u1x8c65t1"]
 
-[ext_resource type="Script" path="res://scenes/enemies/eagle/scripts/eagle.gd" id="1_q2yw1"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/eagle/scripts/eagle.gd" id="1_q2yw1"]
 [ext_resource type="Texture2D" uid="uid://cpb5g86vvm307" path="res://assets/sprites/enemies/eagle/eagle-attack-1.png" id="1_xakps"]
 [ext_resource type="Texture2D" uid="uid://5vv8j2lw1m7g" path="res://assets/sprites/enemies/eagle/eagle-attack-2.png" id="2_kvhj4"]
 [ext_resource type="Texture2D" uid="uid://dwvm8hhk5re0h" path="res://assets/sprites/enemies/eagle/eagle-attack-3.png" id="3_1vlif"]
@@ -11,49 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://cytv6ckdnoxn5" path="res://assets/sprites/enemies/death/enemy-death-4.png" id="8_0vgcm"]
 [ext_resource type="Texture2D" uid="uid://dfmr48qm7l4uu" path="res://assets/sprites/enemies/death/enemy-death-5.png" id="9_r75o7"]
 [ext_resource type="Texture2D" uid="uid://cab4ggenxlawb" path="res://assets/sprites/enemies/death/enemy-death-6.png" id="10_f71ql"]
-
-[sub_resource type="Animation" id="Animation_wikp4"]
-resource_name = "Dead"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("5_psnbk"), ExtResource("6_shp2l"), ExtResource("7_yyskm"), ExtResource("8_0vgcm"), ExtResource("9_r75o7"), ExtResource("10_f71ql")]
-}
-
-[sub_resource type="Animation" id="Animation_bwbtu"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../HitBox/CollisionShape2D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../HitBox/CollisionShape2D:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_qtdha"]
 resource_name = "Attack"
@@ -108,6 +65,49 @@ tracks/3/keys = {
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_wikp4"]
+resource_name = "Dead"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("5_psnbk"), ExtResource("6_shp2l"), ExtResource("7_yyskm"), ExtResource("8_0vgcm"), ExtResource("9_r75o7"), ExtResource("10_f71ql")]
+}
+
+[sub_resource type="Animation" id="Animation_bwbtu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HitBox/CollisionShape2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../HitBox/CollisionShape2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pplo4"]
 _data = {
 "Attack": SubResource("Animation_qtdha"),
@@ -115,36 +115,31 @@ _data = {
 "RESET": SubResource("Animation_bwbtu")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kqfs2"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3xjio"]
 animation = &"Attack"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uf43p"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lotkn"]
 animation = &"Dead"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1xen8"]
-animation = &"Attack"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pw8kw"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gu051"]
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3nytk"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_086w7"]
 advance_mode = 2
-advance_expression = "not _is_hit"
+advance_expression = "_is_dead"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_go7by"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_145fh"]
 advance_mode = 2
-advance_expression = "_is_hit"
+advance_expression = "not _is_dead"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_tnfg2"]
-states/Attack/node = SubResource("AnimationNodeAnimation_kqfs2")
-states/Attack/position = Vector2(449.925, -43.4525)
-states/Dead/node = SubResource("AnimationNodeAnimation_uf43p")
-states/Dead/position = Vector2(698.1, 96.3475)
-states/Idle/node = SubResource("AnimationNodeAnimation_1xen8")
-states/Idle/position = Vector2(450.65, 96.9475)
+states/Attack/node = SubResource("AnimationNodeAnimation_3xjio")
+states/Attack/position = Vector2(397.2, 101.75)
+states/Dead/node = SubResource("AnimationNodeAnimation_lotkn")
+states/Dead/position = Vector2(598.2, 101.75)
 states/Start/position = Vector2(184, 101.75)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_pw8kw"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_3nytk"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_go7by")]
-graph_offset = Vector2(-25.8, -156.952)
+transitions = ["Start", "Attack", SubResource("AnimationNodeStateMachineTransition_gu051"), "Attack", "Dead", SubResource("AnimationNodeStateMachineTransition_086w7"), "Dead", "Attack", SubResource("AnimationNodeStateMachineTransition_145fh")]
+graph_offset = Vector2(-25.8, -46.8454)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cv1br"]
 radius = 11.1603
@@ -155,13 +150,14 @@ radius = 16.135
 height = 50.0477
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jsks5"]
-height = 22.0
+radius = 11.0
+height = 28.0
 
 [node name="Eagle" type="CharacterBody2D"]
 script = ExtResource("1_q2yw1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("3_1vlif")
+texture = ExtResource("1_xakps")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 libraries = {
@@ -174,7 +170,11 @@ libraries = {
 "": SubResource("AnimationLibrary_pplo4")
 }
 tree_root = SubResource("AnimationNodeStateMachine_tnfg2")
+advance_expression_base_node = NodePath("../../..")
 anim_player = NodePath("..")
+
+[node name="Timer" type="Timer" parent="Sprite2D"]
+wait_time = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-3, 7)
@@ -184,16 +184,17 @@ shape = SubResource("CapsuleShape2D_cv1br")
 [node name="HitBox" type="Area2D" parent="."]
 collision_layer = 262144
 collision_mask = 512
-monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource("CapsuleShape2D_0na3a")
 debug_color = Color(0.980392, 0.0823529, 0.278431, 0.419608)
 
 [node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 131072
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(-4, 8)
+position = Vector2(-5, 4)
 shape = SubResource("CapsuleShape2D_jsks5")
 debug_color = Color(0.466667, 0.592157, 0, 0.419608)
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=32 format=3 uid="uid://c2m2raksyb0w1"]
 
 [ext_resource type="Texture2D" uid="uid://bmqtyl4ho010t" path="res://assets/sprites/enemies/frog/idle/frog-idle-2.png" id="1_2lk3f"]
-[ext_resource type="Script" path="res://scenes/enemies/frog/scripts/frog.gd" id="1_lru1c"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/frog/scripts/frog.gd" id="1_lru1c"]
 [ext_resource type="Texture2D" uid="uid://dsucc22w2dbnm" path="res://assets/sprites/enemies/frog/idle/frog-idle-1.png" id="2_ecujx"]
 [ext_resource type="Texture2D" uid="uid://b6sexaf2vvp3t" path="res://assets/sprites/enemies/frog/idle/frog-idle-3.png" id="3_f1ten"]
 [ext_resource type="Texture2D" uid="uid://ciy7b256grpak" path="res://assets/sprites/enemies/frog/idle/frog-idle-4.png" id="4_d83qb"]

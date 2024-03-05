@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://r67sju53t4p" path="res://assets/eviroment/tileset.png" id="3_0kmdm"]
 [ext_resource type="Texture2D" uid="uid://c6sipewdvatch" path="res://assets/eviroment/props/palm.png" id="3_1o33o"]
 [ext_resource type="Texture2D" uid="uid://s1d6dnxeyq3o" path="res://assets/eviroment/props/plant-house.png" id="4_3ipe1"]
-[ext_resource type="PackedScene" uid="uid://c0mkuxbk5c2ja" path="res://scenes/player/fox.tscn" id="4_8gkkl"]
+[ext_resource type="PackedScene" uid="uid://c0mkuxbk5c2ja" path="res://scenes/characters/player/fox.tscn" id="4_8gkkl"]
 [ext_resource type="PackedScene" uid="uid://lqsj5ffbtgvr" path="res://scenes/background/background.tscn" id="4_jk1c4"]
 [ext_resource type="Script" path="res://autoloads/camera.gd" id="5_cvrig"]
-[ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="5_vr0gn"]
-[ext_resource type="PackedScene" uid="uid://dcd0u1x8c65t1" path="res://scenes/enemies/eagle/eagle.tscn" id="7_fic4b"]
+[ext_resource type="Script" path="res://scenes/characters/player/scripts/player.gd" id="5_vr0gn"]
+[ext_resource type="PackedScene" uid="uid://dcd0u1x8c65t1" path="res://scenes/characters/enemies/eagle/eagle.tscn" id="7_fic4b"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sidp6"]
 texture = ExtResource("3_0kmdm")
@@ -1063,20 +1063,16 @@ position = Vector2(80, 80)
 script = ExtResource("5_vr0gn")
 
 [node name="Eagle" parent="." instance=ExtResource("7_fic4b")]
-position = Vector2(480, 96)
-
-[node name="Timer" type="Timer" parent="Eagle"]
-wait_time = 2.0
-autostart = true
+position = Vector2(203, 89)
 
 [node name="Eagle2" parent="." instance=ExtResource("7_fic4b")]
-position = Vector2(178, 64)
+position = Vector2(491, 96)
 
-[node name="Timer" type="Timer" parent="Eagle2"]
-wait_time = 2.0
-autostart = true
+[node name="Eagle3" parent="." instance=ExtResource("7_fic4b")]
+position = Vector2(794, 30)
+
+[node name="Eagle4" parent="." instance=ExtResource("7_fic4b")]
+position = Vector2(929, 85)
 
 [connection signal="changed_direction" from="Fox" to="Camera2D" method="_on_subject_changed_direction"]
 [connection signal="landed" from="Fox" to="Camera2D" method="_on_subject_landed"]
-[connection signal="timeout" from="Eagle/Timer" to="Eagle" method="attack"]
-[connection signal="timeout" from="Eagle2/Timer" to="Eagle" method="attack"]
